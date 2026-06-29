@@ -54,7 +54,8 @@ set(EIGEN_BUILD_PKGCONFIG OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(Eigen3
   GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
   GIT_TAG 3.4.0
-  GIT_SHALLOW TRUE)
+  GIT_SHALLOW TRUE
+  SYSTEM)
 FetchContent_MakeAvailable(Eigen3)
 
 # --- HDF5 + HighFive (file I/O) --------------------------------------------
@@ -67,7 +68,8 @@ set(HIGHFIVE_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(HighFive
   GIT_REPOSITORY https://github.com/BlueBrain/HighFive.git
   GIT_TAG v2.9.0
-  GIT_SHALLOW TRUE)
+  GIT_SHALLOW TRUE
+  SYSTEM)
 FetchContent_MakeAvailable(HighFive)
 
 # --- Boost.Program_options (CLI parsing) -----------------------------------
@@ -80,7 +82,8 @@ if(FEMHEAT_BUILD_TESTS)
   FetchContent_Declare(googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
     GIT_TAG v1.14.0
-    GIT_SHALLOW TRUE)
+    GIT_SHALLOW TRUE
+    SYSTEM)
   FetchContent_MakeAvailable(googletest)
 endif()
 
@@ -88,7 +91,13 @@ endif()
 # Library target: femheat_lib
 # ---------------------------------------------------------------------------
 add_library(femheat_lib
-  src/build_info.cpp)
+  src/build_info.cpp
+  src/line2.cpp
+  src/mesh1d.cpp
+  src/boundary_condition.cpp
+  src/assembler.cpp
+  src/linear_solver.cpp
+  src/heat_problem.cpp)
 target_include_directories(femheat_lib PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_compile_definitions(femheat_lib PRIVATE
@@ -112,7 +121,10 @@ target_link_libraries(femheat
 if(FEMHEAT_BUILD_TESTS)
   enable_testing()
   add_executable(femheat_tests
-    tests/test_smoke.cpp)
+    tests/test_smoke.cpp
+    tests/test_line2.cpp
+    tests/test_assembler.cpp
+    tests/test_solve1d.cpp)
   target_link_libraries(femheat_tests
     PRIVATE femheat_lib GTest::gtest_main femheat_warnings)
   include(GoogleTest)
