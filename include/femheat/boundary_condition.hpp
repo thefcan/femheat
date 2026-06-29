@@ -11,8 +11,7 @@ namespace femheat {
 class IBoundaryCondition {
  public:
   virtual ~IBoundaryCondition() = default;
-  virtual void apply(Eigen::SparseMatrix<double>& K,
-                     Eigen::VectorXd& rhs) const = 0;
+  virtual void apply(Eigen::SparseMatrix<double>& K, Eigen::VectorXd& rhs) const = 0;
 };
 
 /// Dirichlet condition T = value at a single node, enforced with the penalty
@@ -28,8 +27,7 @@ class DirichletBC : public IBoundaryCondition {
 
   DirichletBC(int node, double value, double beta = kDefaultPenalty);
 
-  void apply(Eigen::SparseMatrix<double>& K,
-             Eigen::VectorXd& rhs) const override;
+  void apply(Eigen::SparseMatrix<double>& K, Eigen::VectorXd& rhs) const override;
 
  private:
   int node_;
@@ -44,8 +42,7 @@ class NeumannBC : public IBoundaryCondition {
  public:
   NeumannBC(int node, double flux);
 
-  void apply(Eigen::SparseMatrix<double>& K,
-             Eigen::VectorXd& rhs) const override;
+  void apply(Eigen::SparseMatrix<double>& K, Eigen::VectorXd& rhs) const override;
 
  private:
   int node_;

@@ -6,8 +6,7 @@
 
 namespace femheat {
 
-HeatProblem::HeatProblem(int numNodes,
-                         std::vector<std::unique_ptr<IElement>> elements,
+HeatProblem::HeatProblem(int numNodes, std::vector<std::unique_ptr<IElement>> elements,
                          Material material)
     : numNodes_(numNodes),
       elements_(std::move(elements)),
@@ -37,14 +36,15 @@ void HeatProblem::addNeumann(int node, double flux) {
 }
 
 LinearSolver::Result HeatProblem::solveDetailed() const {
-  LinearSystem system =
-      Assembler::assemble(numNodes_, elements_, material_, source_);
+  LinearSystem system = Assembler::assemble(numNodes_, elements_, material_, source_);
   for (const auto& bc : bcs_) {
     bc->apply(system.K, system.f);
   }
   return LinearSolver::solve(system.K, system.f);
 }
 
-Eigen::VectorXd HeatProblem::solve() const { return solveDetailed().x; }
+Eigen::VectorXd HeatProblem::solve() const {
+  return solveDetailed().x;
+}
 
 }  // namespace femheat

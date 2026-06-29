@@ -48,8 +48,7 @@ class HeatProblem {
   int numNodes() const { return numNodes_; }
 
  private:
-  HeatProblem(int numNodes, std::vector<std::unique_ptr<IElement>> elements,
-              Material material);
+  HeatProblem(int numNodes, std::vector<std::unique_ptr<IElement>> elements, Material material);
 
   int numNodes_;
   std::vector<std::unique_ptr<IElement>> elements_;

@@ -7,15 +7,16 @@ namespace femheat {
 namespace {
 // 2 * signed area of the triangle (the Jacobian determinant).
 double signedDetJ(const std::array<Point, 3>& p) {
-  return (p[1].x - p[0].x) * (p[2].y - p[0].y) -
-         (p[2].x - p[0].x) * (p[1].y - p[0].y);
+  return (p[1].x - p[0].x) * (p[2].y - p[0].y) - (p[2].x - p[0].x) * (p[1].y - p[0].y);
 }
 }  // namespace
 
 Tri3::Tri3(std::array<int, 3> nodes, std::array<Point, 3> coords)
     : nodes_(nodes), coords_(coords) {}
 
-double Tri3::area() const { return std::abs(signedDetJ(coords_)) / 2.0; }
+double Tri3::area() const {
+  return std::abs(signedDetJ(coords_)) / 2.0;
+}
 
 Eigen::MatrixXd Tri3::elementStiffness(const Material& material) const {
   const Point& p1 = coords_[0];

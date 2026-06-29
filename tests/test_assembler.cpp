@@ -22,16 +22,13 @@ TEST(Assembler, TwoElementMesh) {
   const auto elements = mesh.buildElements();
 
   // Constant source f = 8 -> per-node element load f*h/2 = 2.
-  const auto system = Assembler::assemble(mesh.numNodes(), elements,
-                                          Material(1.0),
+  const auto system = Assembler::assemble(mesh.numNodes(), elements, Material(1.0),
                                           [](const Point&) { return 8.0; });
 
   // Global stiffness: overlap at the shared middle node sums to 4.
   const Eigen::MatrixXd K(system.K);
   Eigen::MatrixXd expectedK(3, 3);
-  expectedK << 2, -2, 0,
-      -2, 4, -2,
-      0, -2, 2;
+  expectedK << 2, -2, 0, -2, 4, -2, 0, -2, 2;
   EXPECT_TRUE(K.isApprox(expectedK)) << "K =\n" << K;
 
   // Global load: middle node receives a contribution from both elements.

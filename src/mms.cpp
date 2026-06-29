@@ -7,7 +7,9 @@ namespace {
 constexpr double kPi = 3.14159265358979323846;
 }  // namespace
 
-double exact1D(double x) { return std::sin(kPi * x); }
+double exact1D(double x) {
+  return std::sin(kPi * x);
+}
 
 double source1D(double x, double k) {
   return k * kPi * kPi * std::sin(kPi * x);
@@ -78,8 +80,7 @@ double l2Error2D(const TriMesh& mesh, const Eigen::VectorXd& uh,
   return std::sqrt(sumSq);
 }
 
-double observedOrder(double hCoarse, double errCoarse, double hFine,
-                     double errFine) {
+double observedOrder(double hCoarse, double errCoarse, double hFine, double errFine) {
   return std::log(errCoarse / errFine) / std::log(hCoarse / hFine);
 }
 

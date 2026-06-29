@@ -2,11 +2,10 @@
 
 #include <gtest/gtest.h>
 
-#include <highfive/H5File.hpp>
-
 #include <Eigen/Dense>
 #include <cstdio>
 #include <fstream>
+#include <highfive/H5File.hpp>
 #include <iterator>
 #include <string>
 
@@ -18,8 +17,7 @@ using femheat::TriMesh;
 
 TEST(Hdf5Writer, WritesExpectedDatasetsAndXdmf) {
   const TriMesh mesh(1.0, 1.0, 5, 5);  // 25 nodes, 32 triangles
-  const Eigen::VectorXd field =
-      Eigen::VectorXd::LinSpaced(mesh.numNodes(), 0.0, 1.0);
+  const Eigen::VectorXd field = Eigen::VectorXd::LinSpaced(mesh.numNodes(), 0.0, 1.0);
 
   const std::string h5 = "femheat_io_test.h5";
   const std::string xdmf = "femheat_io_test.xdmf";
@@ -32,20 +30,17 @@ TEST(Hdf5Writer, WritesExpectedDatasetsAndXdmf) {
     ASSERT_TRUE(file.exist("/mesh/connectivity"));
     ASSERT_TRUE(file.exist("/solution/T"));
 
-    const auto coords =
-        file.getDataSet("/mesh/coordinates").getSpace().getDimensions();
+    const auto coords = file.getDataSet("/mesh/coordinates").getSpace().getDimensions();
     ASSERT_EQ(coords.size(), 2u);
     EXPECT_EQ(coords[0], static_cast<std::size_t>(mesh.numNodes()));
     EXPECT_EQ(coords[1], 2u);
 
-    const auto conn =
-        file.getDataSet("/mesh/connectivity").getSpace().getDimensions();
+    const auto conn = file.getDataSet("/mesh/connectivity").getSpace().getDimensions();
     ASSERT_EQ(conn.size(), 2u);
     EXPECT_EQ(conn[0], static_cast<std::size_t>(mesh.numElements()));
     EXPECT_EQ(conn[1], 3u);
 
-    const auto t =
-        file.getDataSet("/solution/T").getSpace().getDimensions();
+    const auto t = file.getDataSet("/solution/T").getSpace().getDimensions();
     ASSERT_EQ(t.size(), 1u);
     EXPECT_EQ(t[0], static_cast<std::size_t>(mesh.numNodes()));
   }
@@ -57,8 +52,7 @@ TEST(Hdf5Writer, WritesExpectedDatasetsAndXdmf) {
     const std::string content((std::istreambuf_iterator<char>(in)),
                               std::istreambuf_iterator<char>());
     EXPECT_NE(content.find("TopologyType=\"Triangle\""), std::string::npos);
-    EXPECT_NE(content.find("femheat_io_test.h5:/mesh/connectivity"),
-              std::string::npos);
+    EXPECT_NE(content.find("femheat_io_test.h5:/mesh/connectivity"), std::string::npos);
     EXPECT_NE(content.find(":/solution/T"), std::string::npos);
   }
 

@@ -32,8 +32,7 @@ TEST(MMS1D, SecondOrderConvergence) {
     problem.addDirichlet(mesh.rightNode(), 0.0);
 
     const Eigen::VectorXd u = problem.solve();
-    const double err =
-        mms::l2Error1D(mesh, u, [](double x) { return mms::exact1D(x); });
+    const double err = mms::l2Error1D(mesh, u, [](double x) { return mms::exact1D(x); });
     hs.push_back(1.0 / n);
     errs.push_back(err);
   }

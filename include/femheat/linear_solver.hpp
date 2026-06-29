@@ -21,9 +21,8 @@ class LinearSolver {
 
   /// Solve K x = b. `tol` is the relative residual tolerance; pass
   /// `maxIterations <= 0` to use a generous default.
-  static Result solve(const Eigen::SparseMatrix<double>& K,
-                      const Eigen::VectorXd& b, double tol = 1.0e-14,
-                      int maxIterations = -1);
+  static Result solve(const Eigen::SparseMatrix<double>& K, const Eigen::VectorXd& b,
+                      double tol = 1.0e-14, int maxIterations = -1);
 };
 
 }  // namespace femheat

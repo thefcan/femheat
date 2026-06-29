@@ -36,8 +36,8 @@ TEST(MMS2D, SecondOrderConvergence) {
     const auto result = problem.solveDetailed();
     EXPECT_LT(result.error, 1e-9) << "CG residual too large for n=" << n;
 
-    const double err = mms::l2Error2D(
-        mesh, result.x, [](double x, double y) { return mms::exact2D(x, y); });
+    const double err =
+        mms::l2Error2D(mesh, result.x, [](double x, double y) { return mms::exact2D(x, y); });
     hs.push_back(1.0 / (n - 1));
     errs.push_back(err);
   }

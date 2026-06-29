@@ -24,10 +24,9 @@ struct LinearSystem {
 /// constant source; second-order accurate for smooth sources).
 class Assembler {
  public:
-  static LinearSystem assemble(
-      int numNodes, const std::vector<std::unique_ptr<IElement>>& elements,
-      const Material& material,
-      const std::function<double(const Point&)>& source);
+  static LinearSystem assemble(int numNodes, const std::vector<std::unique_ptr<IElement>>& elements,
+                               const Material& material,
+                               const std::function<double(const Point&)>& source);
 };
 
 }  // namespace femheat

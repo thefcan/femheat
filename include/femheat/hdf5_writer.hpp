@@ -19,8 +19,7 @@ namespace femheat {
 class Hdf5Writer {
  public:
   static void writeTriMesh(const std::string& h5Path, const TriMesh& mesh,
-                           const Eigen::VectorXd& field,
-                           const std::string& fieldName = "T");
+                           const Eigen::VectorXd& field, const std::string& fieldName = "T");
 };
 
 }  // namespace femheat

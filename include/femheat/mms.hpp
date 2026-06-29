@@ -33,8 +33,7 @@ double l2Error2D(const TriMesh& mesh, const Eigen::VectorXd& uh,
 
 /// Observed convergence order from two (mesh size, error) samples:
 ///   p = log(errCoarse / errFine) / log(hCoarse / hFine).
-double observedOrder(double hCoarse, double errCoarse, double hFine,
-                     double errFine);
+double observedOrder(double hCoarse, double errCoarse, double hFine, double errFine);
 
 }  // namespace femheat::mms
 

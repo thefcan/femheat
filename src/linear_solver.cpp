@@ -5,16 +5,11 @@
 namespace femheat {
 
 LinearSolver::Result LinearSolver::solve(const Eigen::SparseMatrix<double>& K,
-                                         const Eigen::VectorXd& b, double tol,
-                                         int maxIterations) {
-  Eigen::ConjugateGradient<Eigen::SparseMatrix<double>,
-                           Eigen::Lower | Eigen::Upper>
-      cg;
+                                         const Eigen::VectorXd& b, double tol, int maxIterations) {
+  Eigen::ConjugateGradient<Eigen::SparseMatrix<double>, Eigen::Lower | Eigen::Upper> cg;
   cg.setTolerance(tol);
-  cg.setMaxIterations(
-      maxIterations > 0
-          ? static_cast<Eigen::Index>(maxIterations)
-          : std::max<Eigen::Index>(1000, 20 * K.cols()));
+  cg.setMaxIterations(maxIterations > 0 ? static_cast<Eigen::Index>(maxIterations)
+                                        : std::max<Eigen::Index>(1000, 20 * K.cols()));
   cg.compute(K);
 
   Result result;
