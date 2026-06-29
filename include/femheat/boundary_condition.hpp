@@ -37,6 +37,21 @@ class DirichletBC : public IBoundaryCondition {
   double beta_;
 };
 
+/// Neumann (flux) boundary condition: adds a prescribed boundary flux to the
+/// load vector at a node. In 1D the natural boundary term contributes ± q at
+/// the boundary node (the sign follows the outward normal / which end).
+class NeumannBC : public IBoundaryCondition {
+ public:
+  NeumannBC(int node, double flux);
+
+  void apply(Eigen::SparseMatrix<double>& K,
+             Eigen::VectorXd& rhs) const override;
+
+ private:
+  int node_;
+  double flux_;
+};
+
 }  // namespace femheat
 
 #endif  // FEMHEAT_BOUNDARY_CONDITION_HPP

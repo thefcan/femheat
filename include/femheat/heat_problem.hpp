@@ -31,6 +31,9 @@ class HeatProblem {
   /// Prescribe T = value at the given node (penalty Dirichlet).
   void addDirichlet(int node, double value);
 
+  /// Add a prescribed boundary flux at the given node (Neumann).
+  void addNeumann(int node, double flux);
+
   /// Assemble, apply boundary conditions and solve. Returns nodal T.
   Eigen::VectorXd solve() const;
 

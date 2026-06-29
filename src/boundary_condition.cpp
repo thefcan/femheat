@@ -13,4 +13,13 @@ void DirichletBC::apply(Eigen::SparseMatrix<double>& K,
   rhs(node_) += beta_ * value_;
 }
 
+NeumannBC::NeumannBC(int node, double flux) : node_(node), flux_(flux) {}
+
+void NeumannBC::apply(Eigen::SparseMatrix<double>& /*K*/,
+                      Eigen::VectorXd& rhs) const {
+  // A prescribed flux enters the weak form as a natural boundary term, added
+  // straight to the load vector — the stiffness matrix is untouched.
+  rhs(node_) += flux_;
+}
+
 }  // namespace femheat

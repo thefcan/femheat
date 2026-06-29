@@ -23,6 +23,10 @@ void HeatProblem::addDirichlet(int node, double value) {
   bcs_.push_back(std::make_unique<DirichletBC>(node, value));
 }
 
+void HeatProblem::addNeumann(int node, double flux) {
+  bcs_.push_back(std::make_unique<NeumannBC>(node, flux));
+}
+
 LinearSolver::Result HeatProblem::solveDetailed() const {
   const auto elements = mesh_.buildElements();
   LinearSystem system =
