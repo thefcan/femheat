@@ -98,7 +98,9 @@ add_library(femheat_lib
   src/assembler.cpp
   src/linear_solver.cpp
   src/heat_problem.cpp
-  src/mms.cpp)
+  src/mms.cpp
+  src/tri3.cpp
+  src/tri_mesh.cpp)
 target_include_directories(femheat_lib PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_compile_definitions(femheat_lib PRIVATE
@@ -127,7 +129,9 @@ if(FEMHEAT_BUILD_TESTS)
     tests/test_assembler.cpp
     tests/test_solve1d.cpp
     tests/test_mms1d.cpp
-    tests/test_neumann.cpp)
+    tests/test_neumann.cpp
+    tests/test_tri3.cpp
+    tests/test_mms2d.cpp)
   target_link_libraries(femheat_tests
     PRIVATE femheat_lib GTest::gtest_main femheat_warnings)
   include(GoogleTest)

@@ -6,10 +6,19 @@
 
 namespace femheat {
 
-HeatProblem::HeatProblem(Mesh1D mesh, Material material)
-    : mesh_(std::move(mesh)),
+HeatProblem::HeatProblem(int numNodes,
+                         std::vector<std::unique_ptr<IElement>> elements,
+                         Material material)
+    : numNodes_(numNodes),
+      elements_(std::move(elements)),
       material_(material),
       source_([](const Point&) { return 0.0; }) {}
+
+HeatProblem::HeatProblem(const Mesh1D& mesh, Material material)
+    : HeatProblem(mesh.numNodes(), mesh.buildElements(), material) {}
+
+HeatProblem::HeatProblem(const TriMesh& mesh, Material material)
+    : HeatProblem(mesh.numNodes(), mesh.buildElements(), material) {}
 
 void HeatProblem::setSource(std::function<double(const Point&)> source) {
   source_ = std::move(source);
@@ -28,9 +37,8 @@ void HeatProblem::addNeumann(int node, double flux) {
 }
 
 LinearSolver::Result HeatProblem::solveDetailed() const {
-  const auto elements = mesh_.buildElements();
   LinearSystem system =
-      Assembler::assemble(mesh_.numNodes(), elements, material_, source_);
+      Assembler::assemble(numNodes_, elements_, material_, source_);
   for (const auto& bc : bcs_) {
     bc->apply(system.K, system.f);
   }
