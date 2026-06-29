@@ -1,0 +1,23 @@
+# Build output
+build/
+build-*/
+cmake-build-*/
+_deps/
+
+# Solver output artifacts
+*.h5
+*.hdf5
+*.xdmf
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# macOS
+.DS_Store
+
+# CMake helper files
+CMakeUserPresets.json
+compile_commands.json
